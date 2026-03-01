@@ -1,0 +1,71 @@
+{
+  "projectType": "saas",
+  "projectName": "Sociales",
+  "projectDescription": "An interactive educational platform for Costa Rican students to learn social studies through engaging lessons and quizzes.",
+  "theme": "almond",
+  "primaryColor": "#2ECC71",
+  "lightColor": "#3498DB",
+  "darkColor": null,
+  "navigation": {
+    "groups": [
+      {
+        "group": "Get Started",
+        "pages": [
+          "introduction",
+          "quickstart",
+          "features"
+        ]
+      },
+      {
+        "group": "User Guide",
+        "pages": [
+          "guides/grade-selection",
+          "guides/lessons",
+          "guides/quizzes",
+          "guides/progress-tracking"
+        ]
+      },
+      {
+        "group": "Content Library",
+        "pages": [
+          "content/grade-4",
+          "content/grade-5",
+          "content/grade-6",
+          "content/exam-prep"
+        ]
+      },
+      {
+        "group": "Technical",
+        "pages": [
+          "technical/architecture",
+          "technical/firebase-setup",
+          "technical/deployment"
+        ]
+      },
+      {
+        "group": "Resources",
+        "pages": [
+          "faq",
+          "support"
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Interactive lessons for grades 4-6",
+    "Randomized quiz system with instant feedback",
+    "Firebase authentication with Google sign-in",
+    "Comprehensive Costa Rican social studies curriculum",
+    "Progress tracking and results visualization",
+    "Mobile-responsive design"
+  ],
+  "publicApiSurface": [
+    "AuthContext.useAuth()",
+    "AuthContext.loginWithGoogle()",
+    "AuthContext.logout()",
+    "lessonsData[gradeId]",
+    "Quiz component",
+    "LessonCard component",
+    "Layout component"
+  ]
+}
