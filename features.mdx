@@ -1,0 +1,442 @@
+---
+title: Platform Features
+description: Discover the interactive features and capabilities that make Sociales an engaging learning experience
+---
+
+## Core Features
+
+Sociales combines modern web technologies with educational best practices to create an engaging learning platform. Here are the key features that power the student experience.
+
+## 1. Interactive Lessons for Grades 4-6
+
+Each grade level features carefully structured lessons aligned with Costa Rican Ministry of Education standards.
+
+### Content Structure
+
+Lessons are organized into logical sections with clear learning objectives:
+
+```javascript
+{
+  id: 1,
+  title: "Lección 1: Costa Rica y su Geografía",
+  description: "Costa Rica y su Geografía",
+  sections: [
+    {
+      title: "1. Líneas Imaginarias",
+      content: [
+        "Las líneas imaginarias nos ayudan a ubicar lugares en la Tierra.",
+        "<h3>Paralelos</h3><ul><li>Van de este a oeste.</li>..."
+      ],
+      videoId: "r6Mg005jCds"
+    }
+  ]
+}
+```
+
+### Rich Content Rendering
+
+The lesson viewer supports HTML formatting for enhanced readability:
+
+```jsx
+<div 
+  dangerouslySetInnerHTML={{ __html: block }} 
+  style={{ 
+    marginBottom: '1.5rem', 
+    fontSize: '1.2rem', 
+    color: 'var(--text-main)' 
+  }} 
+/>
+```
+
+This enables:
+- Formatted headings and subheadings
+- Bullet points and numbered lists
+- Bold and emphasized text
+- Semantic HTML structure
+
+### Embedded Video Content
+
+Lessons integrate YouTube videos for visual learning:
+
+```jsx
+{section.videoId && (
+  <div className="video-container" style={{...}}>
+    <iframe
+      src={`https://www.youtube.com/embed/${section.videoId}`}
+      title="YouTube video player"
+      frameBorder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media"
+      allowFullScreen
+    />
+  </div>
+)}
+```
+
+<Info>
+  Videos are embedded responsively and load only when students reach that section, optimizing bandwidth usage.
+</Info>
+
+### Grade-Specific Content
+
+The platform organizes content by grade level with distinct themes:
+
+**Grade 4** (🗺️): "Explora la geografía e historia profunda de Costa Rica"
+**Grade 5** (🌿): "Aprende sobre nuestra sociedad moderna y el ambiente"
+**Grade 6** (📜): "Domina los eventos clave y reformas que forjaron el país"
+**Resumen** (🎓): "Preparación integral para las pruebas MEP 2026"
+
+## 2. Randomized Quiz System with Instant Feedback
+
+The quiz engine provides interactive assessment with immediate results to reinforce learning.
+
+### Question Randomization
+
+Each quiz randomly selects 5 questions from a larger pool:
+
+```jsx
+const initializeQuiz = useCallback(() => {
+  if (questions && questions.length > 0) {
+    const shuffled = [...questions].sort(() => 0.5 - Math.random());
+    setActiveQuestions(shuffled.slice(0, 5));
+  }
+}, [questions]);
+```
+
+**Benefits:**
+- Students can retake quizzes without seeing identical questions
+- Reduces memorization of answer patterns
+- Encourages mastery of all content, not just specific questions
+
+### Three-State Quiz Flow
+
+The quiz component manages three distinct states:
+
+```jsx
+const [gameState, setGameState] = useState('START'); // START, ACTIVE, RESULTS
+
+switch (gameState) {
+  case 'ACTIVE':
+    return <QuizActive {...props} />;
+  case 'RESULTS':
+    return <QuizResults score={score} total={total} />;
+  default:
+    return <QuizStart onStart={handleStart} />;
+}
+```
+
+### Instant Feedback Mechanism
+
+Students receive immediate feedback after each answer:
+
+```jsx
+const handleOptionClick = (index) => {
+  if (selectedOption !== null) return; // Prevent multiple clicks
+  
+  setSelectedOption(index);
+  const currentQ = activeQuestions[currentQuestionIndex];
+  
+  if (index === currentQ.correct) {
+    setScore(prev => prev + 1);
+    setFeedback({ type: 'correct', text: '¡Correcto! 🎉' });
+  } else {
+    setFeedback({ type: 'incorrect', text: 'Incorrecto 😔' });
+  }
+};
+```
+
+**Key Features:**
+- Click-once protection prevents accidental double answers
+- Visual feedback with emoji indicators
+- Score updates in real-time
+- Clear indication of correct/incorrect status
+
+### Question Format
+
+Questions follow a consistent structure:
+
+```javascript
+{
+  question: "¿Qué nos ayudan a ubicar las líneas imaginarias?",
+  options: [
+    "Lugares en la Tierra",
+    "Estrellas en el cielo",
+    "Peces en el mar"
+  ],
+  correct: 0  // Index of correct answer
+}
+```
+
+## 3. Firebase Authentication with Google Sign-In
+
+Secure authentication powered by Firebase Authentication ensures user privacy and data protection.
+
+### Authentication Context
+
+The app uses React Context to manage authentication state globally:
+
+```jsx
+import { getAuth, onAuthStateChanged, signInWithPopup, 
+         GoogleAuthProvider, signOut } from 'firebase/auth';
+
+export const AuthProvider = ({ children }) => {
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const auth = getAuth(app);
+  
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+      setLoading(false);
+    });
+    
+    return unsubscribe;
+  }, []);
+  
+  // ...
+};
+```
+
+### Google Sign-In Integration
+
+Simplified authentication flow using Google's OAuth:
+
+```jsx
+const loginWithGoogle = () => {
+  const provider = new GoogleAuthProvider();
+  return signInWithPopup(auth, provider);
+};
+```
+
+**Benefits:**
+- No password management required
+- Secure OAuth 2.0 flow
+- Familiar Google login interface
+- Fast authentication process
+
+### Session Management
+
+Firebase automatically handles:
+- Session persistence across page refreshes
+- Automatic token refresh
+- Secure logout functionality
+
+```jsx
+const logout = () => {
+  return signOut(auth);
+};
+```
+
+<Note>
+  The app doesn't render content until authentication state is determined, preventing flashing of unauthorized content.
+</Note>
+
+## 4. Comprehensive Costa Rican Curriculum
+
+Content is carefully curated to match MEP (Ministerio de Educación Pública) standards.
+
+### Curriculum Coverage
+
+The platform includes lessons spanning:
+
+**Geography:**
+- Imaginary lines (parallels and meridians)
+- Costa Rica's hemispheric location
+- Oceans and continents
+- Pacific and Caribbean coasts
+- Mountain systems and volcanic ranges
+
+**History:**
+- Constitutional development
+- Key historical events
+- Social reforms and guarantees
+- Abolition of the army (1948)
+
+**Civic Education:**
+- Democratic values
+- Citizenship responsibilities
+- Environmental stewardship
+- Cultural diversity
+
+### MEP 2026 Exam Preparation
+
+The "Resumen General" section provides:
+- Integrated review across all grades
+- Practice questions similar to standardized tests
+- Comprehensive coverage of exam topics
+- Targeted preparation strategies
+
+## 5. Progress Tracking and Results Visualization
+
+The platform provides clear feedback on student performance.
+
+### Quiz Scoring System
+
+Real-time score tracking throughout quiz sessions:
+
+```jsx
+const [score, setScore] = useState(0);
+const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+
+// Score updates immediately on correct answer
+if (index === currentQ.correct) {
+  setScore(prev => prev + 1);
+}
+```
+
+### Results Display
+
+After completing a quiz, students see:
+
+```jsx
+<QuizResults
+  score={score}           // e.g., 4
+  total={activeQuestions.length}  // always 5
+  onRestart={handleRestart}
+/>
+```
+
+This displays:
+- Final score as a fraction (4/5)
+- Percentage or performance indicator
+- Option to retry with new questions
+
+### Progress Indicators
+
+During active quizzes, students see:
+
+```jsx
+index={currentQuestionIndex}  // Current question (0-4)
+total={activeQuestions.length}  // Total questions (5)
+```
+
+This creates a progress indicator like "Question 2 of 5".
+
+## 6. Mobile-Responsive Design
+
+The platform adapts seamlessly to all screen sizes using responsive CSS and flexible layouts.
+
+### Responsive Grid System
+
+Content cards adapt to screen width:
+
+```jsx
+<div className="lessons-grid">
+  {grades.map(grade => (
+    <div key={grade.id}>
+      <Link to={`/grade/${grade.id}`} className="lesson-card">
+        {/* Card content */}
+      </Link>
+    </div>
+  ))}
+</div>
+```
+
+CSS handles responsive columns automatically:
+
+```css
+.lessons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+```
+
+### Flexible Typography
+
+Text sizes scale appropriately:
+
+```jsx
+<h1 style={{
+  fontFamily: 'var(--font-heading)',
+  fontSize: '3.5rem',  // Scales down on mobile via media queries
+  lineHeight: '1.2'
+}}>
+```
+
+### Touch-Friendly Interactions
+
+All interactive elements are sized for touch:
+- Large button targets
+- Adequate spacing between clickable elements
+- Touch-optimized quiz option buttons
+
+### Responsive Video Embeds
+
+Videos maintain aspect ratio across devices:
+
+```jsx
+<div className="video-container" style={{
+  borderRadius: 'var(--radius-md)',
+  overflow: 'hidden',
+  boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
+}}>
+  <iframe
+    src={`https://www.youtube.com/embed/${section.videoId}`}
+    style={{ width: '100%', height: '100%' }}
+  />
+</div>
+```
+
+## Additional Technical Features
+
+### Code Splitting and Lazy Loading
+
+Optimizes initial page load by splitting code:
+
+```jsx
+const Home = lazy(() => import('./pages/Home'));
+const SubjectSelection = lazy(() => import('./pages/SubjectSelection'));
+const LessonsList = lazy(() => import('./pages/LessonsList'));
+const LessonView = lazy(() => import('./pages/LessonView'));
+```
+
+### Suspense Boundaries
+
+Graceful loading states during code splitting:
+
+```jsx
+const PageLoader = () => (
+  <div style={{ padding: '2rem', textAlign: 'center' }}>
+    <h2>Cargando... 📚</h2>
+  </div>
+);
+
+<Suspense fallback={<PageLoader />}>
+  <Routes>...</Routes>
+</Suspense>
+```
+
+### Smooth Scroll Navigation
+
+Enhanced UX with smooth scrolling:
+
+```jsx
+const scrollToGrados = (e) => {
+  e.preventDefault();
+  const element = document.getElementById('grados');
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth' });
+  }
+};
+```
+
+### Progressive Animation
+
+Sections fade in sequentially for visual appeal:
+
+```jsx
+{lesson.sections.map((section, index) => (
+  <section 
+    key={index} 
+    style={{ 
+      animation: `fadeIn 0.5s ease-out ${index * 0.1}s both` 
+    }}
+  >
+    {/* Section content */}
+  </section>
+))}
+```
+
+<Info>
+  All features are built with accessibility in mind, using semantic HTML and proper ARIA labels where appropriate.
+</Info>

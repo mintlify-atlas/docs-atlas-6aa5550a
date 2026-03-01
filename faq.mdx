@@ -1,0 +1,127 @@
+---
+title: Preguntas Frecuentes
+description: Respuestas a las preguntas más comunes sobre Estudios Sociales - 5to Grado
+---
+
+# Preguntas Frecuentes
+
+Encuentra respuestas rápidas a las preguntas más comunes sobre la plataforma.
+
+## Cuenta y Autenticación
+
+<Accordion title="¿Cómo inicio sesión con Google?">
+  La plataforma utiliza Firebase Authentication con Google Sign-In. Para iniciar sesión:
+  
+  1. Haz clic en el botón de "Iniciar sesión con Google"
+  2. Selecciona tu cuenta de Google en la ventana emergente
+  3. Autoriza a la aplicación para acceder a tu información básica
+  4. Serás redirigido automáticamente a la plataforma
+  
+  <Info>
+    Tu sesión se mantendrá activa incluso si cierras el navegador. No necesitas iniciar sesión cada vez.
+  </Info>
+</Accordion>
+
+<Accordion title="¿Se guarda mi progreso?">
+  Sí, tu progreso se guarda automáticamente gracias a Firebase Authentication. Mientras estés autenticado con tu cuenta de Google, tu sesión persistirá entre visitas.
+  
+  <Tip>
+    Asegúrate de iniciar sesión siempre con la misma cuenta de Google para mantener tu historial.
+  </Tip>
+</Accordion>
+
+## Sistema de Cuestionarios
+
+<Accordion title="¿Cómo funciona el sistema de cuestionarios?">
+  El sistema de cuestionarios funciona de la siguiente manera:
+  
+  - Cada cuestionario selecciona **5 preguntas aleatorias** del banco de preguntas del tema
+  - Las preguntas se mezclan cada vez que inicias un nuevo cuestionario
+  - Solo tienes una oportunidad por pregunta para seleccionar la respuesta
+  - Recibes retroalimentación inmediata: ✅ ¡Correcto! o ❌ Incorrecto
+  - Al finalizar, verás tu puntaje total sobre 5 preguntas
+  
+  <Info>
+    Las preguntas se seleccionan aleatoriamente usando `shuffled.slice(0, 5)`, lo que garantiza variedad en cada intento.
+  </Info>
+</Accordion>
+
+<Accordion title="¿Cómo se calcula mi puntaje?">
+  El sistema de puntuación es directo:
+  
+  - Cada respuesta correcta suma **1 punto**
+  - Las respuestas incorrectas no restan puntos
+  - El puntaje máximo es **5 puntos** (una por cada pregunta)
+  - Al finalizar, verás tu puntaje total y podrás reintentar el cuestionario
+  
+  El puntaje se muestra en la pantalla de resultados después de completar las 5 preguntas.
+</Accordion>
+
+## Contenido Disponible
+
+<Accordion title="¿Qué grados están disponibles?">
+  La plataforma ofrece contenido para tres niveles de primaria:
+  
+  - **4to Grado** - Geografía e historia profunda de Costa Rica 🗺️
+  - **5to Grado** - Sociedad moderna y el ambiente 🌿
+  - **6to Grado** - Eventos clave y reformas del país 📜
+  - **Resumen General** - Preparación integral para las pruebas MEP 2026 🎓
+  
+  Todos los grados están actualmente disponibles y listos para explorar.
+</Accordion>
+
+<Accordion title="¿En qué idioma está el contenido?">
+  Todo el contenido de la plataforma está en **español**, diseñado específicamente para estudiantes de Costa Rica.
+  
+  Esto incluye:
+  - Todas las preguntas de los cuestionarios
+  - Descripciones de temas
+  - Retroalimentación y mensajes del sistema
+  - Interfaz de usuario completa
+</Accordion>
+
+## Requisitos Técnicos
+
+<Accordion title="¿Qué navegadores son compatibles?">
+  La plataforma está construida con React y Vite, funcionando en navegadores modernos:
+  
+  **Recomendados:**
+  - Google Chrome (versión 90+)
+  - Mozilla Firefox (versión 88+)
+  - Microsoft Edge (versión 90+)
+  - Safari (versión 14+)
+  
+  **Requisitos:**
+  - JavaScript habilitado
+  - Soporte para CSS moderno (Grid, Flexbox)
+  - Cookies habilitadas (para autenticación con Firebase)
+  
+  <Tip>
+    Para la mejor experiencia, mantén tu navegador actualizado a la última versión.
+  </Tip>
+</Accordion>
+
+<Accordion title="¿Funciona en dispositivos móviles?">
+  Sí, la plataforma está diseñada con un diseño responsivo que se adapta a diferentes tamaños de pantalla.
+  
+  La aplicación incluye:
+  - Meta viewport configurado para dispositivos móviles
+  - Diseño adaptable usando Flexbox y CSS Grid
+  - Interfaz táctil amigable para tablets y teléfonos
+  
+  Funciona bien en iOS (Safari) y Android (Chrome).
+</Accordion>
+
+## Características de la Plataforma
+
+<Accordion title="¿Qué hace que esta plataforma sea diferente?">
+  La plataforma Estudios Sociales ofrece:
+  
+  - **🎯 Aprendizaje Interactivo** - Juegos y cuestionarios que hacen que la historia cobre vida
+  - **🛡️ Contenido Seguro** - Material verificado por expertos y apropiado para cada edad
+  - **🎨 Diseño Moderno** - Interfaz limpia con fuentes Comic Neue y Poppins para mejor legibilidad
+  - **🔐 Autenticación Segura** - Sistema de login con Google usando Firebase
+  - **📊 Retroalimentación Inmediata** - Sabes de inmediato si tu respuesta es correcta
+  
+  Todo diseñado específicamente para estudiantes costarricenses de primaria.
+</Accordion>

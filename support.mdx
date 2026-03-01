@@ -1,0 +1,208 @@
+---
+title: Soporte y Ayuda
+description: Cómo obtener ayuda técnica y reportar problemas en la plataforma Estudios Sociales
+---
+
+# Soporte y Ayuda
+
+Si encuentras problemas técnicos o necesitas ayuda, esta guía te mostrará cómo obtener asistencia.
+
+## Reportar Problemas
+
+La mejor manera de reportar bugs o solicitar nuevas características es a través de GitHub Issues.
+
+<Info>
+  El proyecto es de código abierto y está alojado en GitHub. Las contribuciones y reportes de la comunidad son bienvenidos.
+</Info>
+
+### Cómo Reportar un Issue
+
+1. **Visita el Repositorio**
+   
+   Navega al repositorio del proyecto en GitHub (el enlace debe estar disponible en el repositorio de tu organización).
+
+2. **Crea un Nuevo Issue**
+   
+   - Haz clic en la pestaña "Issues"
+   - Selecciona "New Issue"
+   - Elige la plantilla apropiada (Bug Report o Feature Request)
+
+3. **Proporciona Detalles**
+   
+   Para reportes de bugs, incluye:
+   - Descripción clara del problema
+   - Pasos para reproducir el error
+   - Comportamiento esperado vs. comportamiento actual
+   - Navegador y versión que estás usando
+   - Capturas de pantalla (si aplica)
+
+<Tip>
+  Cuanto más detallado sea tu reporte, más fácil será para los desarrolladores resolver el problema.
+</Tip>
+
+## Solución de Problemas Comunes
+
+### Problemas de Autenticación
+
+<Accordion title="No puedo iniciar sesión con Google">
+  **Posibles soluciones:**
+  
+  1. **Verifica las cookies**: Asegúrate de que tu navegador permite cookies de terceros
+     - Chrome: Settings → Privacy and Security → Cookies
+     - Firefox: Settings → Privacy & Security → Cookies and Site Data
+  
+  2. **Ventanas emergentes bloqueadas**: El popup de Google puede estar bloqueado
+     - Busca el ícono de popup bloqueado en la barra de direcciones
+     - Permite popups para el sitio
+  
+  3. **Extensiones del navegador**: Algunas extensiones de privacidad pueden interferir
+     - Prueba en modo incógnito/privado
+     - Desactiva temporalmente extensiones de bloqueadores
+  
+  4. **Consola del navegador**: Abre las herramientas de desarrollador (F12) y revisa errores en la consola
+</Accordion>
+
+<Accordion title="Mi sesión se cierra automáticamente">
+  Firebase Authentication mantiene la sesión activa, pero puede cerrarse si:
+  
+  - Limpias las cookies del navegador
+  - Usas modo incógnito/privado
+  - La configuración de Firebase expira los tokens
+  
+  **Solución**: Simplemente vuelve a iniciar sesión con Google. Tu cuenta permanece segura.
+</Accordion>
+
+### Problemas con los Cuestionarios
+
+<Accordion title="El cuestionario no carga preguntas">
+  **Pasos de diagnóstico:**
+  
+  1. **Recarga la página**: Presiona F5 o Ctrl+R (Cmd+R en Mac)
+  
+  2. **Verifica la conexión**: El contenido puede cargarse desde Firebase/API
+     - Comprueba tu conexión a internet
+     - Intenta en una red diferente
+  
+  3. **Limpia la caché**:
+     - Chrome: Ctrl+Shift+Delete → Clear browsing data
+     - Firefox: Ctrl+Shift+Delete → Clear recent history
+  
+  4. **Revisa la consola**: Abre DevTools (F12) y busca errores de red o JavaScript
+</Accordion>
+
+<Accordion title="No puedo hacer clic en las opciones">
+  Este comportamiento es normal si:
+  
+  - **Ya seleccionaste una respuesta**: Solo puedes seleccionar una opción por pregunta
+  - La lógica `if (selectedOption !== null) return;` previene cambios
+  
+  **Solución**: Haz clic en "Siguiente" para avanzar a la próxima pregunta.
+</Accordion>
+
+<Accordion title="Las preguntas se repiten">
+  El sistema selecciona 5 preguntas aleatorias del banco de preguntas disponibles:
+  
+  - Si el tema tiene pocas preguntas, pueden repetirse entre intentos
+  - Cada intento mezcla las preguntas usando un algoritmo aleatorio
+  - Esto es intencional para reforzar el aprendizaje
+  
+  **No es un bug**: El sistema funciona según lo diseñado para practicar contenido clave.
+</Accordion>
+
+### Problemas de Compatibilidad del Navegador
+
+<Accordion title="La página se ve rota o no tiene estilos">
+  **Causas comunes:**
+  
+  1. **Navegador desactualizado**: Actualiza a la última versión
+     - Chrome: Menu → Help → About Google Chrome
+     - Firefox: Menu → Help → About Firefox
+  
+  2. **CSS no cargó**: Revisa la consola de red (F12 → Network)
+     - Busca archivos .css con errores 404
+     - Intenta hacer hard refresh: Ctrl+Shift+R
+  
+  3. **Fuentes no cargan**: Google Fonts puede estar bloqueado
+     - La app usa Comic Neue y Poppins
+     - Revisa si tu red/firewall bloquea fonts.googleapis.com
+</Accordion>
+
+<Accordion title="JavaScript no funciona">
+  La plataforma requiere JavaScript habilitado:
+  
+  **Verifica que JS esté habilitado:**
+  - Chrome: Settings → Privacy and Security → Site Settings → JavaScript
+  - Firefox: about:config → javascript.enabled (debe ser true)
+  
+  **Extensiones que pueden causar problemas:**
+  - NoScript
+  - uBlock Origin (en modo estricto)
+  - Privacy Badger
+  
+  <Tip>
+    Agrega el sitio a la lista blanca de tus extensiones de privacidad.
+  </Tip>
+</Accordion>
+
+## Navegadores Soportados
+
+La plataforma está construida con Vite + React y requiere navegadores modernos:
+
+| Navegador | Versión Mínima | Recomendado |
+|-----------|----------------|-------------|
+| Chrome    | 90+            | ✅ Sí       |
+| Firefox   | 88+            | ✅ Sí       |
+| Edge      | 90+            | ✅ Sí       |
+| Safari    | 14+            | ✅ Sí       |
+| Opera     | 76+            | ⚠️ Limitado |
+| IE 11     | ❌ No soportado | ❌ No       |
+
+<Info>
+  Internet Explorer no es compatible. Por favor usa un navegador moderno para la mejor experiencia.
+</Info>
+
+## Recursos de Desarrollo
+
+Si eres desarrollador y quieres contribuir o investigar más a fondo:
+
+### Stack Tecnológico
+
+- **Frontend**: React 18+ con Vite
+- **Autenticación**: Firebase Authentication (Google Sign-In)
+- **Enrutamiento**: React Router
+- **Estilos**: CSS personalizado con variables CSS
+- **Fuentes**: Google Fonts (Comic Neue, Poppins)
+
+### Estructura del Código
+
+Archivos clave para referencia:
+
+- `/src/pages/Home.jsx` - Página principal y selección de grados (src/pages/Home.jsx:1)
+- `/src/components/Quiz.jsx` - Lógica del sistema de cuestionarios (src/components/Quiz.jsx:14)
+- `/src/context/AuthContext.jsx` - Manejo de autenticación (src/context/AuthContext.jsx:23)
+- `/index.html` - Configuración meta y fuentes (index.html:7)
+
+### Herramientas de Desarrollo
+
+Para depuración avanzada:
+
+1. **React DevTools**: Extensión de navegador para inspeccionar componentes
+2. **Firebase Console**: Para revisar autenticación y usuarios
+3. **Network Tab**: Para depurar llamadas API y carga de recursos
+4. **Console Tab**: Para ver errores de JavaScript y warnings
+
+<Tip>
+  Usa `console.log()` estratégicamente en tu copia local para entender el flujo de datos.
+</Tip>
+
+## Contacto Adicional
+
+Si ninguna de las soluciones anteriores resuelve tu problema:
+
+1. **Revisa los issues existentes** en GitHub - tu problema puede ya estar reportado
+2. **Crea un nuevo issue** con toda la información de depuración
+3. **Sé paciente** - este es un proyecto educativo mantenido por la comunidad
+
+<Info>
+  Para problemas urgentes relacionados con el contenido educativo del MEP, contacta directamente a tu institución educativa.
+</Info>

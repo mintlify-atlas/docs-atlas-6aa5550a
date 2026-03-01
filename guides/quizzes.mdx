@@ -1,0 +1,168 @@
+---
+title: Interactive Quiz System
+description: Learn how the quiz system works, including question randomization, scoring, and how to improve your results.
+---
+
+## Quiz Overview
+
+Each lesson in Sociales includes an interactive quiz to test your understanding of the material. The quiz system randomly selects questions from a larger pool to ensure a fresh experience every time you attempt it.
+
+## Quiz States
+
+The quiz progresses through three distinct states:
+
+1. **START** - Initial screen before beginning the quiz
+2. **ACTIVE** - Answering questions
+3. **RESULTS** - Final score and completion screen
+
+## How Quizzes Work
+
+### Question Randomization
+
+<Info>
+  Each quiz randomly selects **5 questions** from a larger pool of available questions. This means you'll see different questions each time you restart the quiz.
+</Info>
+
+The randomization process:
+- The system shuffles all available questions using the Fisher-Yates algorithm
+- Selects the first 5 questions from the shuffled array
+- These 5 questions form your quiz session
+
+<Note>
+  Randomization happens when:
+  - You first load the lesson page
+  - You click "Intentar de Nuevo" after completing a quiz
+</Note>
+
+## Taking a Quiz
+
+<Steps>
+  <Step title="Start the Quiz">
+    At the end of a lesson, scroll to the quiz section marked with "🏁 ¡Pon a prueba lo aprendido!"
+    
+    Click the **Comenzar Desafío** button to begin.
+  </Step>
+  
+  <Step title="Read the Question">
+    Each question screen displays:
+    - Progress indicator ("Pregunta X de 5")
+    - The question text in large, readable font
+    - Four multiple choice options labeled A, B, C, D
+  </Step>
+  
+  <Step title="Select Your Answer">
+    Click on one of the four answer options. Once you select an answer:
+    - You cannot change your selection
+    - The correct answer is highlighted in green
+    - If your answer was incorrect, it's highlighted in red
+    - Other options are dimmed
+  </Step>
+  
+  <Step title="Review Feedback">
+    After selecting an answer, immediate feedback appears:
+    - **Correct**: Green box with "¡Correcto! 🎉"
+    - **Incorrect**: Red box with "Incorrecto 😔"
+  </Step>
+  
+  <Step title="Continue to Next Question">
+    Click the button in the feedback box:
+    - **Siguiente Pregunta** (for questions 1-4)
+    - **Ver Resultados Finales** (for question 5)
+  </Step>
+  
+  <Step title="View Final Results">
+    After answering all 5 questions, see your final score and have the option to retry.
+  </Step>
+</Steps>
+
+## Scoring System
+
+### How Points Are Calculated
+- Each correct answer = **1 point**
+- Each incorrect answer = **0 points**
+- Maximum possible score = **5 points**
+- Minimum possible score = **0 points**
+
+<Tip>
+  Your score is tracked in real-time as you answer questions. The system increments your score immediately when you select the correct answer.
+</Tip>
+
+### Score Display
+The results screen shows:
+- Large numerical score (your points)
+- Total possible points ("DE 5 PUNTOS")
+- Celebratory emoji (🎉)
+- Encouraging message: "¡Increíble Trabajo! Has completado el desafío con éxito."
+
+## Quiz Interface Details
+
+### Question Screen Elements
+
+**Progress Tracking**
+- Top left: Current question number (e.g., "Pregunta 1 de 5")
+- Top right: "Social Studies Quiz" label
+
+**Answer Options**
+- Four buttons arranged vertically
+- Each labeled with a letter (A, B, C, D)
+- Clean, readable design with ample padding
+
+**Visual Feedback**
+- **Before selection**: All options have a subtle background
+- **After selection**:
+  - Correct answer: Green background (var(--primary))
+  - Your incorrect answer: Red background (#e74c3c)
+  - Other options: Dimmed appearance
+
+### Results Screen
+
+The completion screen displays:
+- Celebration emoji (🎉)
+- Congratulatory heading: "¡Increíble Trabajo!"
+- Completion message
+- Your score in a prominent display box
+- **Intentar de Nuevo** button to restart with new questions
+
+## Retaking Quizzes
+
+<Steps>
+  <Step title="Click Intentar de Nuevo">
+    On the results screen, click the **Intentar de Nuevo** button.
+  </Step>
+  
+  <Step title="New Questions Generated">
+    The system:
+    - Reshuffles all available questions
+    - Selects a new set of 5 random questions
+    - Resets your score to 0
+    - Returns to the START state
+  </Step>
+  
+  <Step title="Start Fresh">
+    Click **Comenzar Desafío** to begin the new quiz attempt with different questions.
+  </Step>
+</Steps>
+
+<Info>
+  Because questions are randomized, you can practice multiple times with the same lesson and see different questions each time, reinforcing your learning through varied practice.
+</Info>
+
+## Tips for Success
+
+1. **Read Carefully**: Question text is displayed in large font for easy reading - take your time
+2. **Think Before Clicking**: You cannot change your answer once selected
+3. **Learn from Mistakes**: The system shows the correct answer immediately, helping you learn
+4. **Practice Multiple Times**: Each retry gives you new questions from the pool
+5. **Review Lesson Content**: If you score low, scroll back up to review the lesson before retrying
+
+## Technical Details
+
+<Note>
+  The quiz component maintains its state throughout your session:
+  - Current question index
+  - Score
+  - Selected answers
+  - Feedback state
+  
+  All state is reset when you click "Intentar de Nuevo" or reload the page.
+</Note>

@@ -1,0 +1,147 @@
+---
+title: Welcome to Sociales
+description: An interactive educational platform for Costa Rican students to master social studies through engaging lessons and quizzes
+---
+
+## Transform Learning into an Adventure
+
+Sociales is a React-based educational platform designed specifically for Costa Rican students in grades 4-6. Built with modern web technologies and Firebase authentication, it provides an engaging way to learn geography, history, and civic education.
+
+<CardGroup cols={2}>
+  <Card
+    title="Quick Start"
+    icon="rocket"
+    href="/quickstart"
+  >
+    Get started with your first lesson in minutes
+  </Card>
+  <Card
+    title="Features"
+    icon="star"
+    href="/features"
+  >
+    Explore the platform's key capabilities
+  </Card>
+  <Card
+    title="Curriculum"
+    icon="book-open"
+    href="#curriculum-overview"
+  >
+    Browse lessons for grades 4, 5, and 6
+  </Card>
+  <Card
+    title="Architecture"
+    icon="code"
+    href="#technical-stack"
+  >
+    Learn about the technology behind Sociales
+  </Card>
+</CardGroup>
+
+## What Makes Sociales Special
+
+Sociales transforms traditional social studies education into an interactive experience that keeps students engaged and motivated.
+
+<CardGroup cols={3}>
+  <Card title="Interactive Lessons" icon="graduation-cap">
+    Structured content with embedded videos, rich formatting, and clear learning objectives
+  </Card>
+  <Card title="Instant Feedback" icon="check-circle">
+    Randomized quizzes with immediate results help reinforce learning
+  </Card>
+  <Card title="Progress Tracking" icon="chart-line">
+    Visual feedback shows students their performance and encourages improvement
+  </Card>
+</CardGroup>
+
+## Curriculum Overview
+
+The platform covers the complete Costa Rican social studies curriculum across three grade levels:
+
+### Grade 4: Geography and History Foundation
+Students explore Costa Rica's geographic position, imaginary lines (parallels and meridians), mountain systems, coasts, and the advantages of the country's location.
+
+**Sample Topics:**
+- Costa Rica's hemispheric location
+- Oceans and continents
+- Pacific and Caribbean coasts
+- Mountain ranges and volcanic systems
+
+### Grade 5: Modern Society and Environment
+Focus on contemporary Costa Rican society, environmental conservation, democratic institutions, and sustainable development.
+
+**Sample Topics:**
+- Environmental protection
+- Democratic values and citizenship
+- Economic development
+- Cultural diversity
+
+### Grade 6: Historical Events and Reforms
+In-depth study of key historical events, political reforms, and the evolution of Costa Rican democracy.
+
+**Sample Topics:**
+- Constitutional history
+- Abolition of the army (1948)
+- Educational reforms
+- Social guarantees
+
+### MEP 2026 Exam Preparation
+Comprehensive review module designed to prepare students for the Ministry of Public Education standardized tests.
+
+## Technical Stack
+
+Sociales is built with modern, production-ready technologies:
+
+```json
+{
+  "framework": "React 18.2",
+  "routing": "React Router DOM 6.22",
+  "authentication": "Firebase 10.8",
+  "build-tool": "Vite 5.1",
+  "deployment": "GitHub Pages"
+}
+```
+
+<Info>
+  The application uses lazy loading for optimal performance, loading pages only when needed to reduce initial bundle size.
+</Info>
+
+### Key Architecture Patterns
+
+**Component Structure:**
+```jsx
+src/
+├── components/        # Reusable UI components
+│   ├── Layout.jsx    # Main app shell with header/footer
+│   ├── Quiz/         # Quiz system components
+│   └── ...
+├── pages/            # Route-level components
+│   ├── Home.jsx      # Grade selection
+│   ├── SubjectSelection.jsx
+│   ├── LessonsList.jsx
+│   └── LessonView.jsx
+├── context/          # React context providers
+│   └── AuthContext.jsx
+└── data/             # Lesson content
+    └── lessons/
+```
+
+**Lazy Loading Implementation:**
+```jsx
+const Home = lazy(() => import('./pages/Home'));
+const SubjectSelection = lazy(() => import('./pages/SubjectSelection'));
+const LessonsList = lazy(() => import('./pages/LessonsList'));
+const LessonView = lazy(() => import('./pages/LessonView'));
+```
+
+## Getting Help
+
+If you encounter any issues or have questions:
+
+- Review the [Quick Start Guide](/quickstart) for common setup questions
+- Check the [Features](/features) page for detailed functionality documentation
+- Contact support at soporte@socialesportal.com
+
+<Note>
+  Sociales is actively maintained and updated to align with the latest MEP curriculum standards.
+</Note>

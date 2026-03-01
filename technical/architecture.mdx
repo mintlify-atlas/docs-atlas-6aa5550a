@@ -1,0 +1,209 @@
+---
+title: Technical Architecture
+description: Overview of Sociales technical stack, routing structure, and application architecture
+---
+
+## Tech Stack
+
+Sociales is built with modern web technologies optimized for performance and developer experience:
+
+### Core Framework
+- **React 18.2.0** - UI library with concurrent rendering features
+- **Vite 5.1.4** - Next-generation build tool for faster development
+- **React Router DOM 6.22.0** - Client-side routing with lazy loading support
+
+### Backend Services
+- **Firebase 10.8.0** - Authentication and backend services
+  - Firebase Authentication for Google Sign-In
+  - Firebase App initialization
+
+### Development Tools
+- **ESLint** - Code linting with React-specific rules
+- **gh-pages** - Automated deployment to GitHub Pages
+
+## Application Entry Point
+
+The application initializes in `src/main.jsx` using HashRouter for GitHub Pages compatibility:
+
+```jsx
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { HashRouter } from 'react-router-dom'
+import App from './App.jsx'
+import './index.css'
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+    <React.StrictMode>
+        <HashRouter>
+            <App />
+        </HashRouter>
+    </React.StrictMode>,
+)
+```
+
+<Warning>
+**HashRouter** is used instead of BrowserRouter because GitHub Pages doesn't support server-side routing. This allows the app to work correctly with direct URL access.
+</Warning>
+
+## Routing Structure
+
+The application uses React Router with code splitting for optimal performance:
+
+```jsx
+import React, { lazy, Suspense } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout';
+
+// Lazy load pages for better initial performance
+const Home = lazy(() => import('./pages/Home'));
+const SubjectSelection = lazy(() => import('./pages/SubjectSelection'));
+const LessonsList = lazy(() => import('./pages/LessonsList'));
+const LessonView = lazy(() => import('./pages/LessonView'));
+
+function App() {
+    return (
+        <Suspense fallback={<PageLoader />}>
+            <Routes>
+                <Route path="/" element={<Layout />}>
+                    <Route index element={<SubjectSelection />} />
+                    <Route path="sociales" element={<Home />} />
+                    <Route path="grade/:gradeId" element={<LessonsList />} />
+                    <Route path="grade/:gradeId/lesson/:lessonId" element={<LessonView />} />
+                </Route>
+            </Routes>
+        </Suspense>
+    );
+}
+```
+
+### Route Structure
+
+| Route | Component | Purpose |
+|-------|-----------|----------|
+| `/` | SubjectSelection | Landing page for subject selection |
+| `/sociales` | Home | Social studies home page |
+| `/grade/:gradeId` | LessonsList | List of lessons for a specific grade |
+| `/grade/:gradeId/lesson/:lessonId` | LessonView | Individual lesson content |
+
+## Performance Optimizations
+
+### Code Splitting
+
+All page components are lazy-loaded using React's `lazy()` and `Suspense`:
+
+```jsx
+const Home = lazy(() => import('./pages/Home'));
+```
+
+This reduces the initial bundle size and improves the First Contentful Paint (FCP) metric.
+
+### Loading States
+
+A custom PageLoader component provides visual feedback during page transitions:
+
+```jsx
+const PageLoader = () => (
+    <div style={{ 
+        padding: '2rem', 
+        textAlign: 'center', 
+        fontFamily: 'var(--font-heading)', 
+        color: 'var(--primary-color)' 
+    }}>
+        <h2>Cargando... 📚</h2>
+    </div>
+);
+```
+
+## Authentication Architecture
+
+Sociales uses Firebase Authentication with a React Context provider. See the authentication implementation in `src/context/AuthContext.jsx`:
+
+```jsx
+import { createContext, useContext, useState, useEffect } from 'react';
+import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
+import app from '../firebase/config';
+
+const AuthContext = createContext();
+
+export const useAuth = () => useContext(AuthContext);
+
+export const AuthProvider = ({ children }) => {
+    const [currentUser, setCurrentUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const auth = getAuth(app);
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            setCurrentUser(user);
+            setLoading(false);
+        });
+
+        return unsubscribe;
+    }, []);
+
+    const loginWithGoogle = () => {
+        const provider = new GoogleAuthProvider();
+        return signInWithPopup(auth, provider);
+    };
+
+    const logout = () => {
+        return signOut(auth);
+    };
+
+    const value = {
+        currentUser,
+        loginWithGoogle,
+        logout
+    };
+
+    return (
+        <AuthContext.Provider value={value}>
+            {!loading && children}
+        </AuthContext.Provider>
+    );
+};
+```
+
+### Authentication Features
+
+- **Google Sign-In** via Firebase Authentication
+- **Auth State Management** using React Context
+- **Loading States** to prevent layout shifts during auth checks
+- **Auth Listener** that updates user state in real-time
+
+### Using Authentication in Components
+
+```jsx
+import { useAuth } from '../context/AuthContext';
+
+function MyComponent() {
+    const { currentUser, loginWithGoogle, logout } = useAuth();
+    
+    if (!currentUser) {
+        return <button onClick={loginWithGoogle}>Sign in with Google</button>;
+    }
+    
+    return (
+        <div>
+            <p>Welcome, {currentUser.displayName}!</p>
+            <button onClick={logout}>Sign out</button>
+        </div>
+    );
+}
+```
+
+## Build Configuration
+
+Vite is configured with a base path for GitHub Pages deployment:
+
+```javascript
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  plugins: [react()],
+  base: '/sociales/',
+})
+```
+
+The `base: '/sociales/'` setting ensures all assets load correctly when deployed to the GitHub Pages subdirectory.

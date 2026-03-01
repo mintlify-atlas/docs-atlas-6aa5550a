@@ -1,0 +1,247 @@
+---
+title: Firebase Setup
+description: Step-by-step guide to configure Firebase for authentication and backend services
+---
+
+## Overview
+
+Sociales uses Firebase for authentication services. This guide walks through setting up Firebase for your project.
+
+## Prerequisites
+
+- A Google account
+- Node.js and npm installed
+- Access to the Firebase Console
+
+## Creating a Firebase Project
+
+<Steps>
+  <Step title="Go to Firebase Console">
+    Navigate to [Firebase Console](https://console.firebase.google.com/) and sign in with your Google account.
+  </Step>
+
+  <Step title="Create a new project">
+    Click **Add project** and follow the wizard:
+    - Enter a project name (e.g., "Sociales")
+    - (Optional) Enable Google Analytics
+    - Click **Create project**
+  </Step>
+
+  <Step title="Register your web app">
+    In the project overview:
+    - Click the **Web** icon (`</>`) to add a web app
+    - Enter an app nickname (e.g., "Sociales Web")
+    - Check **Also set up Firebase Hosting** if you want to use Firebase Hosting
+    - Click **Register app**
+  </Step>
+
+  <Step title="Copy the configuration">
+    Firebase will display your app's configuration object. Copy this for the next step:
+    
+    ```javascript
+    const firebaseConfig = {
+      apiKey: "AIzaSyC...",
+      authDomain: "your-project.firebaseapp.com",
+      projectId: "your-project-id",
+      storageBucket: "your-project.appspot.com",
+      messagingSenderId: "123456789",
+      appId: "1:123456789:web:abc123",
+      measurementId: "G-ABC123XYZ"
+    };
+    ```
+  </Step>
+</Steps>
+
+## Configuring the Application
+
+### Update Firebase Configuration
+
+Open `src/firebase/config.js` and replace the placeholder values with your actual Firebase configuration:
+
+```javascript
+import { initializeApp } from "firebase/app";
+
+// Replace these placeholder values with your Firebase project configuration
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_APP_ID",
+  measurementId: "G-MEASUREMENT_ID"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+export default app;
+```
+
+<Warning>
+**Never commit real Firebase credentials to version control!**
+
+For production applications:
+- Use environment variables (`.env` files)
+- Add `.env` to your `.gitignore`
+- Use different Firebase projects for development and production
+</Warning>
+
+### Using Environment Variables (Recommended)
+
+For better security, use Vite's environment variables:
+
+1. Create a `.env` file in the project root:
+
+```bash
+VITE_FIREBASE_API_KEY=your_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+VITE_FIREBASE_MEASUREMENT_ID=your_measurement_id
+```
+
+2. Update `src/firebase/config.js` to use environment variables:
+
+```javascript
+import { initializeApp } from "firebase/app";
+
+const firebaseConfig = {
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
+};
+
+const app = initializeApp(firebaseConfig);
+export default app;
+```
+
+3. Add `.env` to `.gitignore`:
+
+```bash
+# Environment variables
+.env
+.env.local
+.env.production
+```
+
+## Enabling Authentication
+
+<Steps>
+  <Step title="Navigate to Authentication">
+    In the Firebase Console, click **Authentication** in the left sidebar.
+  </Step>
+
+  <Step title="Get started with Authentication">
+    Click **Get started** to enable Firebase Authentication.
+  </Step>
+
+  <Step title="Enable Google Sign-In">
+    - Click the **Sign-in method** tab
+    - Find **Google** in the providers list
+    - Click the edit icon (pencil)
+    - Toggle **Enable**
+    - Select a support email for the project
+    - Click **Save**
+  </Step>
+
+  <Step title="Configure authorized domains">
+    In the **Settings** tab under **Authorized domains**:
+    - `localhost` is pre-authorized for development
+    - Add your GitHub Pages domain: `username.github.io`
+    - Add any custom domains you're using
+  </Step>
+</Steps>
+
+## Authentication Implementation
+
+The application uses the AuthContext provider located in `src/context/AuthContext.jsx`. The context provides:
+
+- `currentUser` - The currently authenticated user object (or `null`)
+- `loginWithGoogle()` - Function to trigger Google Sign-In popup
+- `logout()` - Function to sign out the current user
+
+### Wrapping Your App
+
+To enable authentication throughout your application, wrap the root component with `AuthProvider`:
+
+```jsx
+import { AuthProvider } from './context/AuthContext';
+import App from './App';
+
+function Root() {
+  return (
+    <AuthProvider>
+      <App />
+    </AuthProvider>
+  );
+}
+```
+
+## Testing Authentication
+
+<Steps>
+  <Step title="Start the development server">
+    ```bash
+    npm run dev
+    ```
+  </Step>
+
+  <Step title="Test Google Sign-In">
+    - Navigate to a page that uses authentication
+    - Click the "Sign in with Google" button
+    - Complete the Google Sign-In flow
+    - Verify that the user information displays correctly
+  </Step>
+
+  <Step title="Check Firebase Console">
+    - Go to **Authentication** > **Users** in Firebase Console
+    - Verify that your test user appears in the list
+  </Step>
+</Steps>
+
+## Troubleshooting
+
+### "Firebase: Error (auth/unauthorized-domain)"
+
+This error occurs when your domain is not authorized in Firebase:
+
+1. Go to Firebase Console > Authentication > Settings
+2. Scroll to **Authorized domains**
+3. Add your domain (e.g., `username.github.io`)
+
+### "Firebase: Error (auth/api-key-not-valid)"
+
+Your API key is incorrect:
+
+1. Verify the configuration in `src/firebase/config.js`
+2. Compare with the config in Firebase Console > Project Settings
+3. Regenerate the API key if necessary
+
+### Authentication works locally but not in production
+
+1. Check that your production domain is in the **Authorized domains** list
+2. Verify that environment variables are correctly set in your deployment environment
+3. For GitHub Pages, ensure the domain is `username.github.io`
+
+## Security Best Practices
+
+<Warning>
+- Never commit Firebase credentials to public repositories
+- Use different Firebase projects for development and production
+- Regularly rotate API keys
+- Set up Firebase Security Rules for Firestore/Storage if used
+- Monitor Firebase usage in the Console for suspicious activity
+</Warning>
+
+## Next Steps
+
+- [Configure deployment to GitHub Pages](/technical/deployment)
+- [Review the technical architecture](/technical/architecture)
+- Explore [Firebase Security Rules](https://firebase.google.com/docs/rules) for additional services

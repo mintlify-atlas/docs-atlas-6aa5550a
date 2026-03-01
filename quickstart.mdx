@@ -1,80 +1,246 @@
 ---
-title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+title: Quick Start Guide
+description: Get started with Sociales in minutes and complete your first interactive lesson
 ---
 
-## Get started in three steps
+## Welcome to Your Learning Journey
 
-Get your documentation site running locally and make your first customization.
+This guide will walk you through accessing Sociales, selecting your grade level, and completing your first interactive lesson with a quiz.
 
-### Step 1: Set up your local environment
-
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
+<Steps>
+  <Step title="Access the Platform">
+    Navigate to the Sociales platform in your web browser. The application is deployed on GitHub Pages and accessible at:
     
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
+    ```
+    https://didiercolo.github.io/sociales/
+    ```
     
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
+    The landing page displays all available subjects, with Estudios Sociales currently active.
+  </Step>
 
-### Step 2: Deploy your changes
-
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
+  <Step title="Select Social Studies">
+    From the subject selection page, click on the **Estudios Sociales** card. You'll see:
     
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
+    - Subject name and icon (🌍)
+    - Description: "Descubre la geografía, historia y cultura de Costa Rica"
+    - Status badge showing "Disponible"
+    
+    <Info>
+      Other subjects (Ciencias, Matemáticas, Español) are coming soon and display "Próximamente" status.
+    </Info>
+  </Step>
 
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
+  <Step title="Choose Your Grade Level">
+    After selecting Social Studies, you'll see four options:
+    
+    **4to Grado** (🗺️)
+    - Focus: Geography and deep history of Costa Rica
+    - Topics: Imaginary lines, coasts, mountain systems
+    
+    **5to Grado** (🌿)
+    - Focus: Modern society and environment
+    - Topics: Democratic values, environmental protection
+    
+    **6to Grado** (📜)
+    - Focus: Key historical events and reforms
+    - Topics: Constitutional history, social reforms
+    
+    **Resumen General** (🎓)
+    - Comprehensive MEP 2026 exam preparation
+    - Integrated review of all grade levels
+    
+    Click on your grade level card to continue.
+  </Step>
 
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
+  <Step title="Browse Available Lessons">
+    Each grade level contains multiple themed lessons. For example, Grade 4 includes:
+    
+    - Lección 1: Costa Rica y su Geografía
+    - Additional lessons on specific topics
+    
+    Each lesson card displays:
+    - Lesson title and description
+    - Visual thumbnail
+    - "Disponible" status badge
+    - Navigation arrow
+  </Step>
 
-### Step 3: Go live
+  <Step title="Start Your First Lesson">
+    Click on any available lesson to begin. The lesson view includes:
+    
+    **Structured Sections:**
+    Each lesson is divided into clear sections with titles like:
+    - "Líneas Imaginarias"
+    - "Ubicación de Costa Rica"
+    - "Océanos y Continentes"
+    
+    **Rich Content:**
+    - Formatted text with headings and lists
+    - Embedded YouTube videos for visual learning
+    - Review questions at the end of each section
+    
+    **Example Section Structure:**
+    ```jsx
+    {
+      title: "1. Líneas Imaginarias",
+      content: [
+        "Las líneas imaginarias nos ayudan a ubicar lugares en la Tierra.",
+        "<h3>Paralelos</h3><ul><li>Van de este a oeste...</li></ul>"
+      ],
+      videoId: "r6Mg005jCds"
+    }
+    ```
+  </Step>
 
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
+  <Step title="Complete the Interactive Quiz">
+    At the end of each lesson, test your knowledge with a 5-question randomized quiz.
+    
+    **Quiz Flow:**
+    
+    1. **Start Screen**: Click "Comenzar" to begin
+    2. **Question Display**: Read the question and 3 multiple-choice options
+    3. **Answer Selection**: Click your answer choice
+    4. **Instant Feedback**:
+       - ✅ Correct answers show "¡Correcto! 🎉"
+       - ❌ Incorrect answers show "Incorrecto 😔"
+    5. **Progress Through**: Click "Siguiente" to move to the next question
+    6. **View Results**: See your score out of 5 at the end
+    
+    <Note>
+      Questions are randomly selected from a larger pool, so you can retake quizzes for additional practice.
+    </Note>
+  </Step>
 
-## Next steps
+  <Step title="Review Your Results">
+    After completing all 5 questions, you'll see:
+    
+    - Your final score (e.g., "3/5")
+    - Performance feedback
+    - Option to restart the quiz with new randomized questions
+    
+    The quiz component handles scoring automatically:
+    
+    ```jsx
+    const handleOptionClick = (index) => {
+      const currentQ = activeQuestions[currentQuestionIndex];
+      
+      if (index === currentQ.correct) {
+        setScore(prev => prev + 1);
+        setFeedback({ type: 'correct', text: '¡Correcto! 🎉' });
+      } else {
+        setFeedback({ type: 'incorrect', text: 'Incorrecto 😔' });
+      }
+    };
+    ```
+  </Step>
+</Steps>
 
-Now that you have your docs running, explore these key features:
+## Understanding the Quiz System
+
+The quiz system is designed to reinforce learning through repetition and variation:
+
+### Randomization Algorithm
+
+```jsx
+const initializeQuiz = useCallback(() => {
+  if (questions && questions.length > 0) {
+    const shuffled = [...questions].sort(() => 0.5 - Math.random());
+    setActiveQuestions(shuffled.slice(0, 5));
+  }
+}, [questions]);
+```
+
+This ensures:
+- Each quiz attempt has different questions
+- Questions appear in random order
+- Students can practice multiple times without memorizing sequence
+
+### Quiz States
+
+The quiz progresses through three distinct states:
+
+1. **START**: Initial screen with instructions
+2. **ACTIVE**: Question display and answer selection
+3. **RESULTS**: Final score and retry option
+
+## Navigation Tips
+
+### Header Navigation
+
+The application header (present on all pages) provides quick access:
+
+- **EduPortal CR** logo: Returns to subject selection
+- **Materias**: Browse all available subjects
+- **Sociales**: Jump to social studies grade selection
+- **Grados**: Scroll to grade level cards (when applicable)
+
+### Breadcrumb Navigation
+
+Each page includes contextual back links:
+
+```jsx
+<Link to="/" style={{...}}>
+  ← Volver a Materias
+</Link>
+```
+
+```jsx
+<Link to={`/grade/${gradeId}`}>
+  ← Volver a Lecciones
+</Link>
+```
+
+## Performance Features
+
+Sociales uses several optimization techniques for smooth performance:
+
+### Lazy Loading
+
+Pages load only when needed:
+
+```jsx
+const PageLoader = () => (
+  <div style={{...}}>
+    <h2>Cargando... 📚</h2>
+  </div>
+);
+
+<Suspense fallback={<PageLoader />}>
+  <Routes>...</Routes>
+</Suspense>
+```
+
+### Smooth Animations
+
+Content sections fade in progressively:
+
+```jsx
+<section 
+  style={{ 
+    animation: `fadeIn 0.5s ease-out ${index * 0.1}s both` 
+  }}
+>
+```
+
+## Next Steps
+
+Now that you've completed your first lesson:
 
 <CardGroup cols={2}>
-
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
-
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
-
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
-
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
-
+  <Card title="Explore More Lessons" icon="book">
+    Browse additional lessons in your grade level to build comprehensive knowledge
+  </Card>
+  <Card title="Try Other Grades" icon="layer-group">
+    Review content from different grade levels to strengthen understanding
+  </Card>
+  <Card title="Practice Quizzes" icon="circle-check">
+    Retake quizzes multiple times to master the material
+  </Card>
+  <Card title="Track Progress" icon="chart-line">
+    Monitor your quiz scores to identify areas for improvement
+  </Card>
 </CardGroup>
 
-<Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
-</Note>
+<Info>
+  The platform is mobile-responsive, so you can learn on any device - desktop, tablet, or phone.
+</Info>
